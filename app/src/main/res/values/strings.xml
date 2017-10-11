@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Assignment HTML</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="html_parsing">HTML Parsing</string>
+    <string name="ok">OK</string>
+    <string name="no_internet_msg">Please connect your device to Internet!</string>
+    <string name="no_data_found_for_query">No results found for your query! Try another keyword.</string>
+</resources>
