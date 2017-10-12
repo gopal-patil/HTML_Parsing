@@ -1,6 +1,8 @@
 package com.example.gopal.assignmenthtml;
 
 import android.content.Context;
+import android.databinding.DataBindingUtil;
+import android.databinding.ViewDataBinding;
 import android.graphics.Paint;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -10,12 +12,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.gopal.assignmenthtml.databinding.ListRowProductBinding;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 /**
- * Created by Dilip on 11-10-2017.
+ * Created by Gopal on 11-10-2017.
  */
 
 public class ProductGridAdater extends RecyclerView.Adapter<ProductGridAdater.ViewHolder> {
@@ -31,7 +34,8 @@ public class ProductGridAdater extends RecyclerView.Adapter<ProductGridAdater.Vi
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         mContext = parent.getContext();
-        return new ViewHolder(LayoutInflater.from(mContext).inflate(R.layout.list_row_product, parent, false));
+        ListRowProductBinding binding = DataBindingUtil.inflate(LayoutInflater.from(mContext), R.layout.list_row_product, parent, false);
+        return new ViewHolder(binding);
     }
 
     @Override
@@ -44,18 +48,8 @@ public class ProductGridAdater extends RecyclerView.Adapter<ProductGridAdater.Vi
                 listener.onItemClick(v, (int) v.getTag());
             }
         });
-        Picasso.with(mContext).load(htmlData.getImageUrl()).placeholder(ContextCompat.getDrawable(mContext, R.mipmap.ic_launcher)).into(holder.productImage);
-        holder.productTitle.setText(htmlData.getProductName());
-        holder.productPrice.setText(htmlData.getPriceWithDiscount());
-        holder.productOldPrice.setText(htmlData.getPriceWithoutDiscount());
-        if (htmlData.getDiscount() != null && !htmlData.getDiscount().isEmpty() && htmlData.getDiscount().length() <= 3) {
-            holder.discount.setVisibility(View.VISIBLE);
-            holder.discount.setText(htmlData.getDiscount());
-        } else {
-            holder.discount.setVisibility(View.GONE);
-        }
-
-
+        Picasso.with(mContext).load(htmlData.getImageUrl()).placeholder(ContextCompat.getDrawable(mContext, R.mipmap.ic_launcher)).into(holder.binding.ivProdImage);
+        holder.bind(htmlData);
     }
 
     @Override
@@ -64,20 +58,21 @@ public class ProductGridAdater extends RecyclerView.Adapter<ProductGridAdater.Vi
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        private final TextView productPrice;
-        private final TextView productTitle;
-        private final TextView productOldPrice;
-        private final TextView discount;
-        ImageView productImage;
+        private final ListRowProductBinding binding;
 
-        public ViewHolder(View itemView) {
-            super(itemView);
-            productImage = (ImageView) itemView.findViewById(R.id.iv_prod_image);
-            productOldPrice = (TextView) itemView.findViewById(R.id.tv_prod_price_old);
-            productOldPrice.setPaintFlags(productOldPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-            productPrice = (TextView) itemView.findViewById(R.id.tv_prod_price);
-            productTitle = (TextView) itemView.findViewById(R.id.tv_prod_title);
-            discount = (TextView) itemView.findViewById(R.id.tv_discount);
+        public ViewHolder(ListRowProductBinding itemView) {
+            super(itemView.getRoot());
+            this.binding = itemView;
+        }
+
+        public void bind(HtmlData data) {
+            binding.setHtmlData(data);
+            if (data.isDiscountVisibility())
+                binding.tvDiscount.setVisibility(View.VISIBLE);
+            else
+                binding.tvDiscount.setVisibility(View.GONE);
+            binding.tvProdPriceOld.setPaintFlags(binding.tvProdPriceOld.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            binding.executePendingBindings();
         }
 
     }

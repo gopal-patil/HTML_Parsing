@@ -16,6 +16,7 @@ public class HtmlData implements Serializable {
     private String priceWithoutDiscount;
     private String discount;
     private String imageUrl;
+    private boolean discountVisibility;
 
     public String getProductUrl() {
         return productUrl;
@@ -51,13 +52,14 @@ public class HtmlData implements Serializable {
 
     public String getDiscount() {
         if (discount != null && !discount.isEmpty()) {
-            return discount.substring(0, discount.indexOf("%") + 1);
+            return discount = discount.substring(0, discount.indexOf("%") + 1);
         }
         return discount;
     }
 
     public void setDiscount(String discount) {
         this.discount = discount;
+        setDiscountVisibility();
     }
 
     public String getImageUrl() {
@@ -70,5 +72,14 @@ public class HtmlData implements Serializable {
     public void setImageUrl(String imageUrl) {
 
         this.imageUrl = imageUrl;
+    }
+
+    public boolean isDiscountVisibility() {
+        return discountVisibility;
+    }
+
+    public void setDiscountVisibility() {
+        String discount = getDiscount();
+        this.discountVisibility = (discount != null && discount.length() > 0 && discount.length() <= 3);
     }
 }

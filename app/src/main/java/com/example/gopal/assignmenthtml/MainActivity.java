@@ -4,6 +4,7 @@ import android.app.LoaderManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.net.ConnectivityManager;
 import android.net.Uri;
@@ -21,6 +22,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+
 import com.example.gopal.assignmenthtml.databinding.ActivityMainBinding;
 
 import org.jsoup.Jsoup;
@@ -37,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements Constants, Recycl
     private ArrayList<HtmlData> mProductList = new ArrayList<>();
     private ProductGridAdater mAdapter;
     private ActivityMainBinding mBinding;
+    private static boolean orientationLand;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements Constants, Recycl
         mBinding.searchBar.setOnQueryTextListener(this);
         ((EditText) mBinding.searchBar.findViewById(android.support.v7.appcompat.R.id.search_src_text))
                 .setHintTextColor(ContextCompat.getColor(this, R.color.dark_gray));
-        mBinding.recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        mBinding.recyclerView.setLayoutManager(new GridLayoutManager(this, orientationLand ? 3 : 2));
 
         mAdapter = new ProductGridAdater(this, mProductList);
         mBinding.recyclerView.setAdapter(mAdapter);
@@ -61,6 +64,13 @@ public class MainActivity extends AppCompatActivity implements Constants, Recycl
             }, Snackbar.LENGTH_INDEFINITE);
         else
             getLoaderManager().initLoader(111, null, this);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        //Update the Flag here
+        orientationLand = (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE ? true : false);
     }
 
 

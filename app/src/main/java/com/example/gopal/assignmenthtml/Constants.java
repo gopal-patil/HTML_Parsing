@@ -1,7 +1,7 @@
 package com.example.gopal.assignmenthtml;
 
 /**
- * Created by Dilip on 12-10-2017.
+ * Created by Gopal on 12-10-2017.
  */
 
 public interface Constants {

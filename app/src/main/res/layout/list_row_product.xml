@@ -2,6 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+
+        <variable
+            name="htmlData"
+            type="com.example.gopal.assignmenthtml.HtmlData" />
+    </data>
+
     <android.support.v7.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -32,7 +39,7 @@
                 android:layout_below="@+id/iv_prod_image"
                 android:ellipsize="end"
                 android:maxLines="2"
-                android:text="ssssssss"
+                android:text="@{htmlData.productName}"
                 android:textColor="@android:color/black"
                 android:textSize="14sp" />
 
@@ -43,7 +50,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/tv_prod_title"
                 android:layout_marginTop="4dp"
-                android:text="dadasdadasd"
+                android:text="@{htmlData.priceWithoutDiscount}"
                 android:textSize="16sp"
                 android:textStyle="normal" />
 
@@ -55,12 +62,13 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="4dp"
                 android:layout_toRightOf="@+id/tv_prod_price_old"
-                android:text="dadasdadasd"
+                android:text="@{htmlData.priceWithDiscount}"
                 android:textColor="@android:color/black"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
-            <TextView android:id="@+id/tv_discount"
+            <TextView
+                android:id="@+id/tv_discount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -68,11 +76,11 @@
                 android:background="@drawable/circuler_badge"
                 android:gravity="bottom"
                 android:padding="5dp"
-                android:text="12%"
+                android:text="@{htmlData.discount }"
                 android:textColor="@android:color/white"
                 android:textSize="14sp"
                 android:textStyle="bold|italic"
-                android:visibility="gone" />
+              />
         </RelativeLayout>
     </android.support.v7.widget.CardView>
 </layout>

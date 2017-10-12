@@ -9,6 +9,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 
 class CustomLoader extends AsyncTaskLoader<Document> {
     private final String query;
@@ -31,7 +32,7 @@ class CustomLoader extends AsyncTaskLoader<Document> {
     @Override
     public Document loadInBackground() {
         try {
-            return htmlDocument = Jsoup.connect(Constants.BASE_URL + "search?keyword=" + query).get();
+            return htmlDocument = Jsoup.connect(Constants.BASE_URL + "search?keyword=" + URLEncoder.encode(query, "utf-8")).get();
         } catch (IOException e) {
             e.printStackTrace();
         }
